@@ -28,7 +28,7 @@ void createVertex(std::vector<float> positions, std::vector<float> colors, std::
 
 	unsigned int sizePos = positions.size();
 	unsigned int sizeCol = colors.size();
-	unsigned int sizeVertices = positions.size() / 3;
+	unsigned int sizeVertices = positions.size() / 3;	// Calculate the number of vertices to create
 	unsigned int idx = 0;
 
 	for (unsigned int i=0; i <sizeVertices; i++)
@@ -88,7 +88,7 @@ bool readData(const std::string& path, std::vector<float>& data)
 		input.close();
 	}
 	catch (std::exception e) {
-		std::cout << "File Opening Error" << e.what() << std::endl;
+		std::cout << "File Opening Error: " << e.what() << std::endl;
 		return false;
 	}
 	return true;

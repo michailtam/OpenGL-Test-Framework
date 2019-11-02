@@ -10,9 +10,9 @@ bool readShaderFromFile(const std::string& fileName, std::string& shaderCode)
 {
 	std::ifstream file;
 	file.open((fileName).c_str());
-
 	std::string line;
 
+	// Read the content of the file (if there is any)
 	if (file.is_open()) {
 
 		if (!file.good()) {
@@ -40,6 +40,7 @@ bool checkCompileStatus(GLuint id, const std::string& type)
 	GLint success;
 	GLchar infoLog[1024];	
 
+	// Checks for the shader compile status
 	if (type.compare("shader") == 0) {
 		glGetShaderiv(id, GL_COMPILE_STATUS, &success);
 		if (!success) {
@@ -48,6 +49,7 @@ bool checkCompileStatus(GLuint id, const std::string& type)
 			return false;
 		}
 	}
+	// Checks for the program link status
 	else if (type.compare("program") == 0) {
 		glGetProgramiv(id, GL_LINK_STATUS, &success);
 		if (!success) {
@@ -80,7 +82,7 @@ GLuint createShader(const std::string& filePath, GLuint shaderType)
 
 bool compileStatus(const std::string& filePath, GLuint shaderID)
 {
-	// Check for compilation errors
+	// Check for compile errors
 	int success;
 	char infoLog[512];
 	glGetShaderiv(shaderID, GL_COMPILE_STATUS, &success);
