@@ -7,17 +7,21 @@
 #define SHADER_PATH "./shaders/"
 #define DATA_PATH "./models/"
 
+
 // Screen dimensions
-const unsigned int SCR_WIDTH = 1920;
-const unsigned int SCR_HEIGHT = 1080;
+const unsigned int INIT_SCEENE_WIDTH = 1920;
+const unsigned int INIT_SCEENE_HEIGHT = 1080;
+
+float sceenWidth = 1920.0;
+float sceenHeight = 1080.0;
 
 GLuint vao;
 GLuint prog;
 
-
 // Callback functions
 void framebuffer_size_callback(GLFWwindow* window, int width, int height);
 void processInput(GLFWwindow *window);
+
 
 void createShaders()
 {
@@ -37,28 +41,23 @@ void setupModelData()
 {
 	std::vector<float> positions;
 	std::vector<float> colors;
+	std::vector<Vertex> vertices;
 	readData(DATA_PATH + std::string("vertices.data"), positions);
 	readData(DATA_PATH + std::string("colors.col"), colors);
-
-	GLuint vbo[2];
-	glGenBuffers(2, vbo);
-	GLuint positionID = vbo[0];
-	GLuint colorID = vbo[1];
-
-	glBindBuffer(GL_ARRAY_BUFFER, positionID);
-	glBufferData(GL_ARRAY_BUFFER, 9 * sizeof(float), positions.data(), GL_STATIC_DRAW);
-	glBindBuffer(GL_ARRAY_BUFFER, colorID);
-	glBufferData(GL_ARRAY_BUFFER, 9 * sizeof(float), colors.data(), GL_STATIC_DRAW);
+	createVertex(positions, colors, vertices);
 
 	glGenVertexArrays(1, &vao);
 	glBindVertexArray(vao);
-	glEnableVertexAttribArray(0);
-	glEnableVertexAttribArray(1);
-
-	glBindBuffer(GL_ARRAY_BUFFER, positionID);
-	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 0, (void*)0);
-	glBindBuffer(GL_ARRAY_BUFFER, colorID);
-	glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 0, (void*)0);
+	{
+		GLuint vbo;
+		glGenBuffers(1, &vbo);
+		glBindBuffer(GL_ARRAY_BUFFER, vbo);
+		glBufferData(GL_ARRAY_BUFFER, vertices.size() * sizeof(Vertex), &vertices.front(), GL_STATIC_DRAW);
+		glEnableVertexAttribArray(0);
+		glEnableVertexAttribArray(1);
+		glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)offsetof(Vertex, position));
+		glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)offsetof(Vertex, color));
+	}
 }
 
 
@@ -71,7 +70,7 @@ int main()
 	glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
 	glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 	
-	GLFWwindow* window = glfwCreateWindow(SCR_WIDTH, SCR_HEIGHT, "OpenGL Test Window", NULL, NULL);
+	GLFWwindow* window = glfwCreateWindow(INIT_SCEENE_WIDTH, INIT_SCEENE_HEIGHT, "OpenGL Test Window", NULL, NULL);
 	if (window == NULL) {
 		std::cout << "Failed to create the GLFW window" << std::endl;
 		glfwTerminate();
@@ -123,5 +122,7 @@ void processInput(GLFWwindow *window)
 // Whenever the window size changed this callback function gets executed
 void framebuffer_size_callback(GLFWwindow* window, int width, int height)
 {
+	sceenWidth = (float)width;
+	sceenHeight = (float)height;
 	glViewport(0, 0, width, height);
 }

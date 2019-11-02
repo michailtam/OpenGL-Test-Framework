@@ -10,6 +10,7 @@ bool readShaderFromFile(const std::string& fileName, std::string& shaderCode)
 {
 	std::ifstream file;
 	file.open((fileName).c_str());
+
 	std::string line;
 
 	if (file.is_open()) {
