@@ -13,7 +13,7 @@ The OpenGL framework consists of the following files, libraries and folders:
 * shaders folder: Contains the shader contents
 
 ## Usage
-To use this framework you have to create a new project (in VS) and add the the above files and folders to your project. in addition, you have to download the following libraries and set them up in your development environment (I have used the following versions glfw-3.3, glm-0.9.9.6):
+To use this framework you have to create a new project (in VS) and add the the above files and folders to your project. In addition, you have to download the following libraries and set them up in your development environment (I have used the following versions glfw-3.3, glm-0.9.9.6):
 * [GLM](https://glm.g-truc.net/0.9.9/index.html): An open-source mathematics framework especially developed for OpenGL and well tested
 * [GLFW](https://www.glfw.org/): An open-source framework to handle all the OS specific tasks like keyboard and mouse events
 * [GLAD](https://glad.dav1d.de/): Contains all the operations to get the available OpenGL extensions accorging to the system
