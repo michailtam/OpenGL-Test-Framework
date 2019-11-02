@@ -4,6 +4,7 @@
 /[Bb]in/
 /[Ll]ibs/
 /[Rr]aw/
+/[Hh]eader/
 
 ############# Visual Studio 2017 cache directory ###########
 /.vs/
